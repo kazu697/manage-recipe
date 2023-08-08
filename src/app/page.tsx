@@ -1,21 +1,39 @@
+'use client'
 import { List, ListItem } from "@tremor/react";
+import { Button } from "@tremor/react";
+import { useState } from "react";
 
-const recipe = [
+type Recipe = {
+  name: String;
+  num: number;
+}
+
+const data = [
   {
-    city: "Pot-au-feu",
+    name: "Pot-au-feu",
+    num: 1,
   },
   {
-    city: "Udon",
+    name: "Udon",
+    num: 1,
   },
   {
-    city: "Curry",
+    name: "Curry",
+    num: 1,
   },
   {
-    city: "stew",
+    name: "stew",
+    num: 1,
   },
 ];
 
 export default function Home() {
+  const [recipe, setReicpe] = useState<Recipe[]>(data);
+
+  const addCount = (index: number) => {
+    recipe[index].num++
+    setReicpe([...recipe])
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between pt-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -23,9 +41,13 @@ export default function Home() {
           ManageRecipe
         </p>
         <List>
-          {recipe.map((item) => (
-            <ListItem key={item.city}>
-              <span>{item.city}</span>
+          {data.map((item, i) => (
+            <ListItem key={i} className="px-2 py-2">
+              <div>
+                <span>{item.num}</span>
+                <span>{item.name}</span>
+              </div>
+              <Button size="xs" variant="primary" onClick={() => {addCount(i)}}>Add</Button>
             </ListItem>
           ))}
         </List>
